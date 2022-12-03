@@ -92,6 +92,7 @@ CNAME(ffi_call_SYSV):
 #ifdef FFI_GO_CLOSURES
 	mov	x18, x5			/* install static chain */
 #endif
+	and x20, x4, #256
 	stp	x3, x4, [x29, #16]	/* save rvalue and flags */
 
 	/* Load the vector argument passing registers, if necessary.  */
@@ -108,6 +109,19 @@ CNAME(ffi_call_SYSV):
 	ldp     x4, x5, [sp, #16*N_V_ARG_REG + 32]
 	ldp     x6, x7, [sp, #16*N_V_ARG_REG + 48]
 
+	cmp x20, #256
+	b.eq SWIFT
+	b CONTINUE
+
+SWIFT:
+	ldp     x0, x1, [sp, #16*N_V_ARG_REG + 8]
+	ldp     x2, x3, [sp, #16*N_V_ARG_REG + 24]
+	ldp     x4, x5, [sp, #16*N_V_ARG_REG + 40]
+	ldp     x6, x7, [sp, #16*N_V_ARG_REG + 56]
+	ldr x20, [sp, #16*N_V_ARG_REG + 0]
+	b CONTINUE
+
+CONTINUE:
 	/* Deallocate the context, leaving the stacked arguments.  */
 	add	sp, sp, #CALL_CONTEXT_SIZE
 

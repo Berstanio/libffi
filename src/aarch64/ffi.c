@@ -595,7 +595,7 @@ ffi_call_int (ffi_cif *cif, void (*fn)(void), void *orig_rvalue,
 	rsize = rtype_size;
     }
   else if (orig_rvalue == NULL)
-    flags &= AARCH64_FLAG_ARG_V;
+    flags &= (AARCH64_FLAG_ARG_V | AARCH64_FLAG_SWIFT_ARG1_IN_X20);
   else if (flags & AARCH64_RET_NEED_COPY)
     rsize = 16;
 
