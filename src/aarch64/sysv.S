@@ -127,6 +127,8 @@ CONTINUE:
 
 	blr     x9			/* call fn */
 
+	mov x6, x3
+
 	ldp	x3, x4, [x29, #16]	/* reload rvalue and flags */
 
 	/* Partially deconstruct the stack frame.  */
@@ -151,10 +153,10 @@ CONTINUE:
 	ret
 2:	stp	x0, x1, [x3]		/* INT128 */
 	ret
-3:	brk	#1000			/* UNUSED */
-	ret
-4:	brk	#1000			/* UNUSED */
-	ret
+3:  stp x0, x1, [x3]       /* Swift Struct 32 byte */
+	stp x2, x6, [x3, #16]
+4:  ret                 /* UNUSED */
+	nop
 5:	brk	#1000			/* UNUSED */
 	ret
 6:	brk	#1000			/* UNUSED */

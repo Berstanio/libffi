@@ -694,7 +694,7 @@ ffi_call_int (ffi_cif *cif, void (*fn)(void), void *orig_rvalue,
 	      }
 #endif /* for handling armasm calling convention */
 	      }
-	    else if (s > 16)
+	    else if (s > 32)
 	      {
 		/* If the argument is a composite type that is larger than 16
 		   bytes, then the argument has been copied to memory, and
